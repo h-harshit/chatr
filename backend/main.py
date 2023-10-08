@@ -1,17 +1,18 @@
+import os
 import json
 from datetime import datetime, timedelta
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from .utils.socket import SocketConnection
+from utils.socket import SocketConnection
 
 
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-from .utils.msg import  write_group_msg
+from utils.msg import  write_group_msg
 
-from .routers import auth, groups
+from routers import auth, groups
 from dotenv import load_dotenv
 
 load_dotenv()

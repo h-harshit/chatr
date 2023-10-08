@@ -1,13 +1,25 @@
+import os
 from fastapi import APIRouter
-from .utils.groups import create_group_mongo, get_groups_list_mongo
-from .utils.msg import get_group_msg_data
-from .models.mongo import Group
+from utils.groups import create_group_mongo, get_groups_list_mongo
+from utils.msg import get_group_msg_data
+from models.mongo import Group
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 router = APIRouter()
 
+uri = os.getenv("MONGO_URI")
+mongo_client = MongoClient(uri, server_api=ServerApi('1'))
+
+try:
+    mongo_client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+
 @router.get("/group_data/{group_id}")
 async def get_group_msg(group_id):
-  print(group_id)
   try:
     group_members = GROUPS[group_id]
   except KeyError:

@@ -1,10 +1,10 @@
+import os
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import APIRouter, HTTPException, status, Depends
-from .utils.auth import get_user
-from .models.auth import User, TokenData
+from utils.auth import get_user
+from models.auth import User, TokenData
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITH")
 ACCESS_TOKEN_EXPIRES_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRES_MINUTES")
@@ -25,6 +25,8 @@ fake_users_db = {
         "disabled": "true",
     },
 }
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
   credentials_exception = HTTPException(

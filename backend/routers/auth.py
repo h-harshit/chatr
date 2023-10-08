@@ -1,8 +1,9 @@
 from datetime import timedelta
-from .models.auth import Token, User
+from models.auth import Token, User
 from fastapi import APIRouter, HTTPException, status, Depends
-from .utils.auth import authenticate_user, create_access_token
+from utils.auth import authenticate_user, create_access_token
 from fastapi.security import  OAuth2PasswordRequestForm
+from dependencies.auth import get_current_active_user
 
 router = APIRouter()
 

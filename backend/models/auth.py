@@ -15,4 +15,4 @@ class User(BaseModel):
   disabled: Union[str, None] = None
 
 class UserInDB(User):
-    hashed_password: str
+  hashed_password: str
