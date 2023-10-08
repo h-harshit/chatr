@@ -2,6 +2,7 @@ from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import APIRouter, HTTPException, status, Depends
 from .utils.auth import get_user
+from .models.auth import User, TokenData
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 SECRET_KEY = "20f33a0423634a009683a2ed0a609bae3042b774cd2ff0232cc015a34bcb509a"

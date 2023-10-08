@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from .utils.groups import create_group_mongo, get_groups_list_mongo
 from .utils.msg import get_group_msg_data
+from .models.mongo import Group
 
 router = APIRouter()
 

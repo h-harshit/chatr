@@ -2,6 +2,7 @@ from jose import jwt
 from typing import Union
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
+from .models.auth import UserInDB
 
 # secure secret key generated using openssl
 SECRET_KEY = os.getenv("SECRET_KEY")
