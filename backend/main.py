@@ -6,27 +6,12 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from utils.socket import SocketConnection
 
-
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-
 from utils.msg import  write_group_msg
-
 from routers import auth, groups, admin
-from dotenv import load_dotenv
-from pprint import pprint
 
-load_dotenv()
+from database import mongo_client
 
-
-uri = os.environ["MONGO_URI"]
-mongo_client = MongoClient(uri, server_api=ServerApi('1'))
-
-try:
-    mongo_client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
+app = FastAPI()
 
 app.add_middleware(
   CORSMiddleware,
@@ -35,8 +20,6 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
-
-app = FastAPI()
 
 app.include_router(admin.router)
 app.include_router(auth.router)

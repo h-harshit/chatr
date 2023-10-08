@@ -3,20 +3,7 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from models.auth import User, UserInDB, CreatedUser, UpdateUser, PatchedUser
 from dependencies.auth import get_user_role
 from utils.auth import insert_user_to_db, update_user_in_db
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-from dotenv import load_dotenv
-
-load_dotenv()
-
-uri = os.environ["MONGO_URI"]
-mongo_client = MongoClient(uri, server_api=ServerApi('1'))
-
-try:
-    mongo_client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
+from database import mongo_client
 
 router = APIRouter()
 

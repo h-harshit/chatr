@@ -7,20 +7,9 @@ from fastapi.security import  OAuth2PasswordRequestForm
 from dependencies.auth import get_current_active_user
 from dotenv import load_dotenv
 from typing import List
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
+from database import mongo_client
 
 load_dotenv()
-
-uri = os.environ["MONGO_URI"]
-mongo_client = MongoClient(uri, server_api=ServerApi('1'))
-
-try:
-    mongo_client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
-
 
 ACCESS_TOKEN_EXPIRES_MINUTES=int(os.environ['ACCESS_TOKEN_EXPIRES_MINUTES'])
 
