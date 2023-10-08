@@ -1,9 +1,15 @@
+import os
 from datetime import timedelta
 from models.auth import Token, User
 from fastapi import APIRouter, HTTPException, status, Depends
 from utils.auth import authenticate_user, create_access_token
 from fastapi.security import  OAuth2PasswordRequestForm
 from dependencies.auth import get_current_active_user
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ACCESS_TOKEN_EXPIRES_MINUTES=int(os.environ['ACCESS_TOKEN_EXPIRES_MINUTES'])
 
 router = APIRouter()
 

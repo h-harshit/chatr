@@ -8,7 +8,7 @@ from pymongo.server_api import ServerApi
 
 router = APIRouter()
 
-uri = os.getenv("MONGO_URI")
+uri = os.environ["MONGO_URI"]
 mongo_client = MongoClient(uri, server_api=ServerApi('1'))
 
 try:

@@ -14,11 +14,12 @@ from utils.msg import  write_group_msg
 
 from routers import auth, groups
 from dotenv import load_dotenv
+from pprint import pprint
 
 load_dotenv()
 
 
-uri = os.getenv("MONGO_URI")
+uri = os.environ["MONGO_URI"]
 mongo_client = MongoClient(uri, server_api=ServerApi('1'))
 
 try:

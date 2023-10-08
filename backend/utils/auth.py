@@ -4,11 +4,14 @@ from typing import Union
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from models.auth import UserInDB
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # secure secret key generated using openssl
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITH")
-ACCESS_TOKEN_EXPIRES_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRES_MINUTES")
+SECRET_KEY = os.environ["SECRET_KEY"]
+ALGORITHM = os.environ["ALGORITHM"]
+ACCESS_TOKEN_EXPIRES_MINUTES = int(os.environ["ACCESS_TOKEN_EXPIRES_MINUTES"])
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
