@@ -7,6 +7,7 @@ from models.auth import UserInDB
 from dotenv import load_dotenv
 from models.auth import User
 from fastapi import HTTPException, status
+from pymongo.collection import ReturnDocument
 
 load_dotenv()
 
@@ -68,7 +69,7 @@ def create_access_token(data:dict, expires_delta: Union[timedelta, None] = None)
   return encoded_jwt
 
 def insert_user_to_db(mongo_client, user: User):
-  # avoid circular imports
+  # avoiding circular imports
   from models.serializers import  UserSerializer, NewUserSerializer
   db = mongo_client["chatrDB"]
   users_db_col = db["users_db"]
@@ -92,3 +93,23 @@ def insert_user_to_db(mongo_client, user: User):
       headers = {"WWW-Authenticate": "Bearer"}
     )
   
+def update_user_in_db(mongo_client, username, payload:dict):
+  # avoiding circular imports
+  from models.serializers import  UserSerializer
+  db = mongo_client["chatrDB"]
+  users_db_col = db["users_db"]
+
+  updated_at = datetime.now()
+  payload["updated_at"] = updated_at
+
+  updated_user = users_db_col.find_one_and_update(
+    {'username': username}, {'$set': payload}, return_document=ReturnDocument.AFTER)
+
+  if not updated_user:
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f'No user with this username: {username} found'
+      )
+  else:
+    updated_user = UserSerializer(updated_user)
+    return updated_user

@@ -30,9 +30,9 @@ except Exception as e:
 
 app = FastAPI()
 
+app.include_router(admin.router)
 app.include_router(auth.router)
 app.include_router(groups.router)
-app.include_router(admin.router)
 
 
 

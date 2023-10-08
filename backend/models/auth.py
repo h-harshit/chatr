@@ -34,3 +34,18 @@ class ListUser(BaseModel):
 class CreatedUser(BaseModel):
   status: str
   created_user: User
+
+class UpdateUser(BaseModel):
+  email: Union[str, None] = None
+  full_name: Union[str, None] = None
+  role: Union[str, None] = None
+
+  class Config:
+    orm_mode = True
+    arbitrary_types_allowed = True
+    json_encoders = {ObjectId: str}
+
+
+class PatchedUser(BaseModel):
+  status: str
+  updated_user: User

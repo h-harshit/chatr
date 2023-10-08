@@ -24,7 +24,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 ALGORITHM = os.environ["ALGORITHM"]
 ACCESS_TOKEN_EXPIRES_MINUTES = int(os.environ["ACCESS_TOKEN_EXPIRES_MINUTES"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
   credentials_exception = HTTPException(
@@ -53,5 +53,5 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
 
 async def get_user_role(current_user: User = Depends(get_current_user)):
   return current_user.role
-  
+
 
