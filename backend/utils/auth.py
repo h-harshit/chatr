@@ -28,11 +28,11 @@ def get_user(mongo_client, username: str):
   db = mongo_client["chatrDB"]
   users_db_col = db["users_db"]
 
-  filter = {
+  query_filter = {
     "username": username
   }
 
-  user = users_db_col.find_one(filter)
+  user = users_db_col.find_one(query_filter)
   if user is not None:
       user_dict = user
       return UserInDB(**user_dict)
@@ -44,8 +44,8 @@ def get_all_users(mongo_client):
   users_db_col = db["users_db"]
 
   # since we need all users so filter is empty dict
-  filter = {}
-  all_users_list = UserListSerializer(users_db_col.find(filter))
+  query_filter = {}
+  all_users_list = UserListSerializer(users_db_col.find(query_filter))
 
   return all_users_list
 

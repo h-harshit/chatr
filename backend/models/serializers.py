@@ -32,3 +32,10 @@ def NewUserSerializer(user) -> dict:
     "deleted_at": None
   }
 
+def GroupSerializer(group) -> dict:
+  return {
+    "group_id": group["group_id"],
+    "group_name": group["group_name"],
+    "group_members": group["group_members"],
+    "group_admin": group["group_admin"]
+  }
