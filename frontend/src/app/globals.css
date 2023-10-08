@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.color-test {
+  color: #dbe6c1;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button !important; /* 1 */
+  background-color: #38b2ab; /* 2 */
+  background-image: none !important; /* 2 */
+}
+
+.chat-background {
+  background-image: url("../assets/chat_background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
