@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from models.auth import UserInDB
 from dotenv import load_dotenv
+from models.serializers import UserListSerializer
 
 load_dotenv()
 
@@ -21,16 +22,35 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(password):
   return pwd_context.hash(password)
 
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
+def get_user(mongo_client, username: str):
+  db = mongo_client["chatrDB"]
+  users_db_col = db["users_db"]
 
-def authenticate_user(fake_db, username:str, password:str):
-  user = get_user(fake_db, username)
+  filter = {
+    "username": username
+  }
+
+  user = users_db_col.find_one(filter)
+  if user is not None:
+      user_dict = user
+      return UserInDB(**user_dict)
+
+def get_all_users(mongo_client):
+  db = mongo_client["chatrDB"]
+  users_db_col = db["users_db"]
+
+  # since we need all users so filter is empty dict
+  filter = {}
+  all_users_list = UserListSerializer(users_db_col.find(filter))
+
+  return all_users_list
+
+
+def authenticate_user(mongo_client, username:str, password:str):
+  user = get_user(mongo_client, username)
   if not user:
     return False
-  if not verify_password(password, user.hashed_password):
+  if not verify_password(password, user.password):
     return False
   return user
 

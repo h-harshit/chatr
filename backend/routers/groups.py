@@ -5,6 +5,9 @@ from utils.msg import get_group_msg_data
 from models.mongo import Group
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
+
+load_dotenv()
 
 router = APIRouter()
 
