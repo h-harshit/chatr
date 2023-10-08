@@ -28,18 +28,6 @@ try:
 except Exception as e:
     print(e)
 
-app = FastAPI()
-
-app.include_router(admin.router)
-app.include_router(auth.router)
-app.include_router(groups.router)
-
-
-
-@app.get("/")
-async def home():
-  return {"home":"chatr"}
-
 app.add_middleware(
   CORSMiddleware,
   allow_origins=["http://localhost:3000"],
@@ -47,6 +35,18 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
+
+app = FastAPI()
+
+app.include_router(admin.router)
+app.include_router(auth.router)
+app.include_router(groups.router)
+
+
+@app.get("/")
+async def home():
+  return {"home":"chatr"}
+
 
 socket_conn_manager = SocketConnection()
 
