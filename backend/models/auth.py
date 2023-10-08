@@ -11,7 +11,6 @@ class TokenData(BaseModel):
   username: Union[str, None] = None
 
 class User(BaseModel):
-  _id: Union[str, None] = None
   username: str
   email: Union[str, None] = None
   full_name: Union[str, None] = None
@@ -31,3 +30,7 @@ class UserInDB(User):
 
 class ListUser(BaseModel):
   users: List[User]
+
+class CreatedUser(BaseModel):
+  status: str
+  created_user: User

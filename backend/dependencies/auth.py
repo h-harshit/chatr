@@ -51,4 +51,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     raise HTTPException(status_code=400, detail = "Inactive User")
   return current_user
 
+async def get_user_role(current_user: User = Depends(get_current_user)):
+  return current_user.role
+  
 

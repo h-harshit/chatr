@@ -31,7 +31,7 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
   return current_user
 
 @router.get("/users/all", response_model=ListUser)
-async def read_all_users(current_user:bool = Depends(get_current_active_user)):
+async def read_all_users(current_user:User = Depends(get_current_active_user)):
   if current_user:
     all_users = get_all_users(mongo_client)
     return {'users': all_users}

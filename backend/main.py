@@ -12,7 +12,7 @@ from pymongo.server_api import ServerApi
 
 from utils.msg import  write_group_msg
 
-from routers import auth, groups
+from routers import auth, groups, admin
 from dotenv import load_dotenv
 from pprint import pprint
 
@@ -32,6 +32,7 @@ app = FastAPI()
 
 app.include_router(auth.router)
 app.include_router(groups.router)
+app.include_router(admin.router)
 
 
 
