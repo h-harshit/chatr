@@ -5,9 +5,9 @@ from .utils.auth import get_user
 from .models.auth import User, TokenData
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-SECRET_KEY = "20f33a0423634a009683a2ed0a609bae3042b774cd2ff0232cc015a34bcb509a"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRES_MINUTES = 30
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITH")
+ACCESS_TOKEN_EXPIRES_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRES_MINUTES")
 
 fake_users_db = {
     "johndoe": {
