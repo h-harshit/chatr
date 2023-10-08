@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 from passlib.context import CryptContext
 
 # secure secret key generated using openssl
-SECRET_KEY = "20f33a0423634a009683a2ed0a609bae3042b774cd2ff0232cc015a34bcb509a"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRES_MINUTES = 30
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITH")
+ACCESS_TOKEN_EXPIRES_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRES_MINUTES")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

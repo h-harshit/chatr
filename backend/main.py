@@ -12,10 +12,12 @@ from pymongo.server_api import ServerApi
 from .utils.msg import  write_group_msg
 
 from .routers import auth, groups
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-
-uri = "mongodb+srv://motostore09:LH14k3UnK78ioQaW@motocluster1.jyhr7ec.mongodb.net/?retryWrites=true&w=majority"
+uri = os.getenv("MONGO_URI")
 mongo_client = MongoClient(uri, server_api=ServerApi('1'))
 
 try:

@@ -73,7 +73,7 @@ export default function ChatApp() {
 
   const getGroupMessage = () => {
     if (groupId) {
-      axios.get(`http://localhost:8000/group_data/${groupId}`).then((res) => {
+      axios.get(`${process.env.API_URL}/group_data/${groupId}`).then((res) => {
         console.log(res.data);
         let members = res.data.group_members;
         let messages = res.data.group_msg;
@@ -124,14 +124,14 @@ export default function ChatApp() {
       admin: newGroupAdmin.split(","),
     };
     axios
-      .post("http://localhost:8000/groups/create", apiPayload)
+      .post(`${process.env.API_URL}/groups/create`, apiPayload)
       .then((res) => {
         console.log(res.data);
       });
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/groups/${clientId}`).then((res) => {
+    axios.get(`${process.env.API_URL}/groups/${clientId}`).then((res) => {
       setGroupList(res.data);
     });
   }, []);
