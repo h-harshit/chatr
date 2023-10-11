@@ -11,7 +11,7 @@ class Group(BaseModel):
   group_admin: List[str]
 
   class Config:
-    orm_mode = True
+    from_attributes = True
     arbitrary_types_allowed = True
     json_encoders = {ObjectId: str}
 
@@ -19,3 +19,10 @@ class Group(BaseModel):
 class GroupData(BaseModel):
   group_info: Group
   group_messages: List[Message]
+
+class GroupCreationStatus(BaseModel):
+  status: str
+  group: Group
+
+class GroupList(BaseModel):
+  group_list: List[Group]

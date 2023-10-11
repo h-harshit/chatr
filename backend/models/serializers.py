@@ -39,3 +39,6 @@ def GroupSerializer(group) -> dict:
     "group_members": group["group_members"],
     "group_admin": group["group_admin"]
   }
+
+def GroupListSerializer(group_list) -> list:
+  return [GroupSerializer(group) for group in group_list]

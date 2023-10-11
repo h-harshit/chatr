@@ -7,7 +7,7 @@ from database import mongo_client
 
 router = APIRouter()
 
-@router.post("/admin/users/create", response_model=CreatedUser)
+@router.post("/users/create", response_model=CreatedUser)
 async def create_users(user: UserInDB, role: str = Depends(get_user_role)):
   if role != "admin":
     raise HTTPException(
@@ -18,7 +18,7 @@ async def create_users(user: UserInDB, role: str = Depends(get_user_role)):
   created_user = insert_user_to_db(mongo_client, user)
   return { "status":"success", "created_user": created_user}
 
-@router.patch("/admin/users/edit/{username}", response_model=PatchedUser)
+@router.patch("/users/edit/{username}", response_model=PatchedUser)
 async def edit_users(username, payload: UpdateUser, role: str = Depends(get_user_role)):
   if role != "admin":
     raise HTTPException(

@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter, Depends, status, HTTPException
 from utils.groups import create_group_mongo, get_groups_list_mongo, get_group_info, get_group_messages
 from utils.msg import get_group_msg_data
-from models.groups import Group, GroupData
+from models.groups import Group, GroupData, GroupCreationStatus, GroupList
 from models.auth import User
 from models.msg import Message
 from database import mongo_client
@@ -23,17 +23,26 @@ async def get_group_data(group_id, current_user: User = Depends(get_current_acti
       headers = {"WWW-Authenticate": "Bearer"}
     )
 
-@router.post("/groups/create")
-async def create_group(group: Group):
-  group_id = group.id
-  group_name = group.name
-  group_members = group.members
-  group_admin = group.admin
+@router.post("/create", response_model=GroupCreationStatus)
+async def create_group(group: Group, current_user: User = Depends(get_current_active_user)):
+  if current_user:
+    res = create_group_mongo(mongo_client, group)
+    return {"status": res["status"], "group": res["group"]}
+  else:
+    raise HTTPException(
+      status_code = status.HTTP_401_UNAUTHORIZED,
+      detail = "UnAuthorized User",
+      headers = {"WWW-Authenticate": "Bearer"}
+    )
 
-  res = create_group_mongo(mongo_client,group_id,group_name, group_members, group_admin)
-  return res
-
-@router.get("/groups/{client_id}")
-async def get_groups_list(client_id:int):
-  res = get_groups_list_mongo(mongo_client, client_id)
-  return res
+@router.get("/{username}", response_model=GroupList)
+async def get_groups_list(username:str, current_user: User = Depends(get_current_active_user)):
+  if current_user:
+    group_list = get_groups_list_mongo(mongo_client, username)
+    return {"group_list": group_list}
+  else:
+    raise HTTPException(
+      status_code = status.HTTP_401_UNAUTHORIZED,
+      detail = "UnAuthorized User",
+      headers = {"WWW-Authenticate": "Bearer"}
+    )

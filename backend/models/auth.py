@@ -21,7 +21,7 @@ class User(BaseModel):
   deleted_at: Union[datetime, None] = None
 
   class Config:
-    orm_mode = True
+    from_attributes = True
     arbitrary_types_allowed = True
     json_encoders = {ObjectId: str}
 
@@ -41,7 +41,7 @@ class UpdateUser(BaseModel):
   role: Union[str, None] = None
 
   class Config:
-    orm_mode = True
+    from_attributes = True
     arbitrary_types_allowed = True
     json_encoders = {ObjectId: str}
 
