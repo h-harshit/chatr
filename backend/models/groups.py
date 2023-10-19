@@ -26,3 +26,11 @@ class GroupCreationStatus(BaseModel):
 
 class GroupList(BaseModel):
   group_list: List[Group]
+
+class UpdateGroupMembers(BaseModel):
+  group_members: List[str]
+
+class PatchedGroup(BaseModel):
+  status: str
+  updated_group: Group
+  

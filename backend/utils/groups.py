@@ -1,6 +1,9 @@
 from models.groups import Group
 from models.msg import Message
 from models.serializers import GroupSerializer, GroupListSerializer
+from pymongo.collection import ReturnDocument
+from fastapi import status, HTTPException
+from bson.objectid import ObjectId
 
 def get_group_info(mongo_client, group_id):
   db = mongo_client["chatrDB"]
@@ -46,4 +49,36 @@ def get_groups_list_mongo(mongo_client, username):
   group_list = GroupListSerializer(group_db_col.find(query_filter))
   
   return group_list
+
+def update_group_members_in_mongo(mongo_client, group_id, username, payload):
+  db = mongo_client["chatrDB"]
+  group_db_col = db["group_db"]
+
+  group_admin = group_db_col.find_one({'group_id': group_id}, projection=["group_admin"])
+  if username in group_admin['group_admin']:
+    updated_group = group_db_col.find_one_and_update(
+      {'group_id': group_id}, {'$set': payload}, return_document=ReturnDocument.AFTER)
+    return updated_group
+  else:
+    raise HTTPException(
+      status_code = status.HTTP_401_UNAUTHORIZED,
+      detail = "Only Group Admin can add/delete users",
+      headers = {"WWW-Authenticate": "Bearer"}
+    )
+
+def like_msg_mongo(mongo_client, group_id:str, msg_id:str, username:str):
+  db = mongo_client["chatrDB"]
+  group_msg_col = db["group_msg"]
+  likes_in_msg = group_msg_col.find_one({'_id': ObjectId(msg_id)})['likes']
+  if username in likes_in_msg:
+    raise HTTPException(
+      status_code = status.HTTP_409_CONFLICT,
+      detail = "User has already liked the message"
+    )
+  else:
+    liked_msg = group_msg_col.find_one_and_update({'_id': ObjectId(msg_id)}, {'$push': {'likes': username}}, return_document=ReturnDocument.AFTER)
+    return liked_msg
+
+
+
 

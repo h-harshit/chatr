@@ -15,3 +15,7 @@ class Message(BaseModel):
     arbitrary_types_allowed = True
     json_encoders = {ObjectId: str}
 
+
+class LikedMessage(BaseModel):
+  status: str
+  liked_msg: Message
